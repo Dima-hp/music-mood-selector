@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Mood Selector</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            width: 100%;
+            margin-bottom: 20px;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .output {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        audio {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose Your Music Mood</h1>
+        
+        <!-- Mood Selector (Combo Box) -->
+        <select id="moodSelector" onchange="updateMood()">
+            <option value="">Select a mood...</option>
+            <option value="happy">Happy</option>
+            <option value="sad">Sad</option>
+            <option value="chill">Chill</option>
+            <option value="focused">Focused</option>
+            <option value="energetic">Energetic</option>
+        </select>
+
+        <!-- Display selected mood -->
+        <div id="selectedMood" class="output">
+            <p>Select a mood to see its music suggestion.</p>
+        </div>
+
+        <!-- Play Button -->
+        <button id="playButton" style="display:none;" onclick="playMusic()">Play Music</button>
+
+        <!-- Music Player -->
+        <audio id="audioPlayer" style="display:none;" controls>
+            <source id="audioSource" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        const moodSelector = document.getElementById('moodSelector');
+        const selectedMood = document.getElementById('selectedMood');
+        const playButton = document.getElementById('playButton');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioSource = document.getElementById('audioSource');
+
+        // Music suggestions for each mood (replace these with actual music links)
+        const musicSuggestions = {
+            happy: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',  // Replace with an actual audio file URL
+            sad: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',      // Replace with an actual audio file URL
+            chill: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',  // Replace with an actual audio file URL
+            focused: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',  // Replace with an actual audio file URL
+            energetic: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3'  // Replace with an actual audio file URL
+        };
+
+        function updateMood() {
+            const mood = moodSelector.value;
+            if (mood) {
+                selectedMood.innerHTML = `<p>You selected: <strong>${mood.charAt(0).toUpperCase() + mood.slice(1)}</strong></p>`;
+                playButton.style.display = 'block';
+                audioSource.src = musicSuggestions[mood];
+                audioPlayer.load();  // Reload the audio player with the new source
+            } else {
+                selectedMood.innerHTML = '<p>Select a mood to see its music suggestion.</p>';
+                playButton.style.display = 'none';
+                audioPlayer.style.display = 'none';
+            }
+        }
+
+        function playMusic() {
+            audioPlayer.style.display = 'block';
+            audioPlayer.play();
+        }
+    </script>
+</body>
+</html>
